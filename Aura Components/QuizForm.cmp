@@ -1,0 +1,100 @@
+<aura:component >
+    <!-- quiz logic attributes -->
+    <aura:attribute name="questions" type="List" default="[]"/>
+    <aura:attribute name="totalSecondsAllotted" type="Integer" />
+    <aura:attribute name="results" type="List" default="[]"/> 
+    <aura:attribute name="errorMessage" type="Boolean" default="false"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="pageSize" type="Integer" />
+    <aura:attribute name="totalSize" type="Integer"/>
+    <aura:attribute name="currentlyVisable" type="Integer"/>
+    <aura:attribute name="start" type="Integer" />
+    <aura:attribute name="end" type="Integer"/> 
+    <aura:attribute name="stopTimer" type="Boolean" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="as" event="c:AnswerSelected" action="{!c.handleAnswerSelected}"/>
+    <aura:handler name="qpsc" event="c:QuestionsPerScreenChange" action="{!c.handleQuestionsPerScreenChange}"/>
+    
+    <aura:registerEvent name="qsc" type="c:QuizStageChange"/>
+         
+    <aura:method name="startTimer" action="{!c.startTimer}" access="PUBLIC"/> 
+    
+    <lightning:layout class="slds-page-header slds-page-header--object-home">
+        <lightning:layoutItem class="slds-text-heading_large">
+            <lightning:icon iconName="action:edit"/>
+            <span class="page-section page-header slds-m-left_small">Quiz</span>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <!-- Spinner Start, show the loading screen while 
+   Client side controller(JS) is communicating with Server Side(APEX) controller -->
+    <aura:if isTrue="{!v.isLoading}">
+        <div class="slds-spinner_container">
+            <div class="slds-spinner--brand slds-spinner slds-spinner--large" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    <!-- Spinner End -->
+    
+    <!-- Selection of Quesitons Per Screen Start -->
+    
+    <lightning:layout class="slds-page-header" >
+        <lightning:layoutItem size="4">
+            <c:QuestionsPerScreen options="[
+                                           {'label': '5', 'value': '5'},
+                                           {'label': '10', 'value': '10'},
+                                           {'label': '15', 'value': '15'},
+                                           {'label': '20', 'value': '20'},                                                        
+                                           ]"/>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem size="8"  padding="around-medium">
+            <c:Timer results="{!v.results}" stopTimer="{!v.stopTimer}" totalSecondsAllotted="{!v.totalSecondsAllotted}" aura:id="timer"/>
+        </lightning:layoutItem>        
+        
+    </lightning:layout>
+    <!-- Quesitons Per Screen Selection End -->
+    
+    <lightning:card> 
+        <lightning:layout >
+            <fieldset style="width: 100%" class="slds-p-horizontal_large"> 
+                <legend id="newquizform">
+                </legend> 
+                <form class="slds-p-horizontal_large slds-m-vertical_large">   
+                    <table>                
+                        <tbody>              
+                            <aura:iteration items="{!v.questions}" var="item" indexVar="index">                    
+                                <tr >                        
+                                        <c:Question index="{!index}" options="{!item.Options__c}" questionLabel="{!item.Body__c}" questionId="{!item.Id}" required="{!item.required}" display="{!item.display}"/>                           
+                                </tr>                    
+                            </aura:iteration>
+                            <div class="slds-float_right">
+                                <div class=" slds-m-bottom_small">
+                                    <lightning:button label="Previous" disabled="{!v.start == 0}"  onclick="{!c.previous}" />      
+                                    <lightning:button label="Next" disabled="{!v.end >= v.totalSize}" onclick="{!c.next}" />   
+                                </div>
+                                <aura:if isTrue="{!v.end >= v.totalSize}">
+                                    <div class="slds-border_top">
+                                        <lightning:button aura:id="quizSubmitBtn" variant="Brand" class="slds-m-top_small" label="Submit" title="Submit" onclick="{!c.handleQuizSubmit}" /> 
+                                    </div>
+                                </aura:if>
+                            </div>
+                        </tbody>
+                    </table>
+                </form>
+            </fieldset>
+        </lightning:layout>
+        
+        <aura:if isTrue="{!v.errorMessage}">
+            <div class="error-message slds-m-left_medium slds-m-top_small"> 
+                <p>Please select an answer for every question</p>
+            </div>
+        </aura:if>
+        
+    </lightning:card>
+    
+</aura:component>

@@ -1,0 +1,12 @@
+<aura:component >
+    <aura:attribute name="grade" type="String"/>
+    <aura:attribute name="name" type="String"/>
+    <aura:attribute name="amount" type="String"/>
+    <aura:attribute name="result" type="String"/>
+    
+    <lightning:card class="slds-m-bottom_small">
+        <h2>Topic: {!v.name}</h2>
+        <h2>Grade: {!v.result}%</h2>
+        <h2>Amount: {!v.amount}</h2>
+    </lightning:card>	
+</aura:component>

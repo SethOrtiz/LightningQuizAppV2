@@ -1,0 +1,15 @@
+<aura:component>
+    <aura:attribute name="totalSecondsAllotted" type="Integer" />
+    <aura:attribute name="secondsRemaining" type="String" />  
+    <aura:attribute name="results" type="List" default="[]"/>
+    <aura:attribute name="stopTimer" type="Boolean"/>
+    
+    <aura:registerEvent name="qsc" type="c:QuizStageChange"/>
+    
+    <aura:method name="countdown" action="{!c.countdown}" access="PUBLIC"/> 
+    
+	<p class="slds-float_right slds-text-heading_large">
+        {!v.secondsRemaining}
+    </p>
+    
+</aura:component>
