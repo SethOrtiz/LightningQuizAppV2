@@ -2,3 +2,20 @@
     color: #6c6d70;
     padding: 5px 20px;
 }
+
+.THIS .none{
+    display: none;
+}
+
+.THIS .block{
+    display: block;
+    padding: 10px 0px;
+}
+
+.THIS .unselectable { 
+    -webkit-user-select: none; 
+    -webkit-touch-callout: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;    
+}

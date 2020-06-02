@@ -16,7 +16,6 @@
             
             if (stopTimer){
                 clearInterval(intervalID);
-                alert('stoppedddddd');
             }
             
             if ((counter === totalSeconds + 1)) {

@@ -26,6 +26,10 @@
      alt="Quiz View"
      style="width: 500px" />
 
+<img src="./pictures/Quiz_Submit.png"
+     alt="Quiz Submit"
+     style="width: 500px" />
+
 <img src="./pictures/Quiz_Validation.png"
      alt="Quiz Validation"
      style="width: 500px" />

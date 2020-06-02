@@ -5,25 +5,26 @@
     <aura:attribute name="options" type="List"/>    
     <aura:attribute name="required" type="Boolean" default="false"/>
     <aura:attribute name="index" type="Integer"/>
+    <aura:attribute name="display" type="String" />
     <aura:registerEvent name="as" type="c:AnswerSelected"/>
     <lightning:layout>
-         <lightning:layoutItem>
+   
+         <lightning:layoutItem class="{!v.display}">
             <p class="index">
                 {!v.index + 1})  
             </p>
-         </lightning:layoutItem>
-
-        <lightning:layoutItem>
-            <lightning:radioGroup name="{!v.questionId}"
-                                  label="{!v.questionLabel}"
-                                  options="{!v.options}"
-                                  value="{!v.value}"
-                                  type="radio"
-                                  onchange="{!c.handleChange}"
-                                  required="{!v.required}"
-                                  />
         </lightning:layoutItem>
+        <div  class="unselectable">
+            <lightning:layoutItem class="{!v.display}"> 
+                <lightning:radioGroup name="{!v.questionId}"
+                                      label="{!v.questionLabel}"
+                                      options="{!v.options}"
+                                      value="{!v.value}"
+                                      type="radio"
+                                      onchange="{!c.handleChange}"
+                                      required="{!v.required}"
+                                      />
+            </lightning:layoutItem>
+        </div>
     </lightning:layout>
-
-
 </aura:component>
